@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const sampleUsers = [
+const users = [
   {
     id:"1",
     name: "Marlin", 
@@ -22,7 +22,13 @@ const sampleUsers = [
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send(sampleUsers);
+  res.send(users);
+});
+
+router.post('/add', function(req, res, next) {
+  const newUser = req.body;
+  users.push(newUser);
+  res.send(users);
 });
 
 module.exports = router;

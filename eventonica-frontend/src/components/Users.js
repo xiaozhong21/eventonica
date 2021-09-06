@@ -27,7 +27,14 @@ export default function Users() {
       id: id,
       name: name,
       email: email
-    }
+    };
+    fetch("http://localhost:3000/users/add", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    })
     setUsers(() => [...users, newUser])
     setId("");
     setName("");
