@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+router.use(express.json());
 
 const users = [
   {
@@ -22,13 +23,13 @@ const users = [
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send(users);
+  res.json(users);
 });
 
 router.post('/add', function(req, res, next) {
   const newUser = req.body;
   users.push(newUser);
-  res.send(users);
+  res.json(users);
 });
 
 module.exports = router;

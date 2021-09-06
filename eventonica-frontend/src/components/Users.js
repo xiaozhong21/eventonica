@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import AddUser from './AddUser';
 import DeleteUser from './DeleteUser';
 
 export default function Users() { 
-  const [apiResponse, setApiResponse] = useState("");
-  const [users, setUsers] = useState("");
+  const [apiResponse, setApiResponse] = useState([]);
+  const [users, setUsers] = useState([]);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export default function Users() {
 
   useEffect(() => setUsers(() => apiResponse), [apiResponse]);
 
-  const addUser = (newUser) => {
+  const addUser = newUser => {
     fetch("http://localhost:3000/users/add", {
       method: "POST",
       headers: {
@@ -31,7 +32,7 @@ export default function Users() {
     })
   };
 
-  const handleAddUserForm = (userFormSubmit) => {
+  const handleAddUserForm = userFormSubmit => {
     userFormSubmit.preventDefault();
     const newUser = {
       id: id,
@@ -53,54 +54,34 @@ export default function Users() {
     setDeleteId("");
   }
 
+  const userList = users.map(user => 
+    <li key={user.id}>
+      User ID: {user.id}<br/>
+      Name: {user.name}<br/>
+      Email: {user.email}
+    </li>
+  );
+
   return (
     <section className="user-management">
       <h2>User Management</h2>
       <ul id="users-list">
-        {users && users.map(user => 
-          <li key={user.id}>
-            User ID: {user.id}<br/>
-            Name: {user.name}<br/>
-            Email: {user.email}
-          </li>
-        )}
+        {users && userList}
       </ul>
-      <div>
-        <h3>Add User</h3>
-        <form id="add-user" action="#" onSubmit={handleAddUserForm}>
-          <fieldset>
-          <label>User ID&nbsp;
-              <input 
-                type="number" 
-                id="add-user-id"
-                min="0"
-                value={id}
-                onChange={(enterId) => setId(enterId.target.value)} 
-                required/>
-            </label><br/><br/>
-            <label>Name&nbsp;
-              <input 
-                type="text" 
-                id="add-user-name"
-                value={name}
-                onChange={(enterName) => setName(enterName.target.value)}
-                required />
-            </label><br/><br/>
-            <label>Email&nbsp;
-              <input 
-                type="email" 
-                id="add-user-email"
-                value={email}
-                onChange={(enterEmail) => setEmail(enterEmail.target.value)}
-                required />
-            </label>
-          </fieldset>
-          <input type="submit" value="Add" />
-        </form>
-      </div>
-      <div>
-        <DeleteUser deleteId={deleteId} setDeleteId={setDeleteId} handleDeleteUserForm={handleDeleteUserForm}/>
-      </div>
+      <AddUser 
+        id={id}
+        name={name} 
+        email={email}
+        setId={setId}
+        setName={setName}
+        setEmail={setEmail}
+        handleAddUserForm={handleAddUserForm}
+      />
+      <DeleteUser 
+        deleteId={deleteId} 
+        setDeleteId={setDeleteId} 
+        handleDeleteUserForm={handleDeleteUserForm}
+      />
     </section>
   )
 }
