@@ -1,30 +1,25 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import DeleteUser from './DeleteUser';
 
-export default function Users() {
-  const mockUsers = [
-    {
-      id:"1",
-      name: "Marlin", 
-      email: "marlin@gmail.com"
-    },
-    {
-      id: "2",
-      name: "Nemo",
-      email: "nemo@gmail.com" 
-    },
-    {
-      id: "3",
-      name: "Dory",
-      email: "dory@gmail.com"  
-    }
-  ]
+export default function Users() { 
+  const [apiResponse, setApiResponse] = useState("");
+  const [users, setUsers] = useState("");
 
-  const [users, setUsers] = useState(mockUsers);
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [deleteId, setDeleteId] = useState('');
+  useEffect(() => {
+    const getUsers = () => {
+      return fetch("http://localhost:3000/users")
+        .then(res => res.json())
+        .then(res => setApiResponse(res))   
+    };
+    getUsers();
+  }, []);
+
+  useEffect(() => setUsers(apiResponse), [apiResponse]);
+
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [deleteId, setDeleteId] = useState("");
 
   const handleAddUserForm = (userFormSubmit) => {
     userFormSubmit.preventDefault();
@@ -34,23 +29,23 @@ export default function Users() {
       email: email
     }
     setUsers(() => [...users, newUser])
-    setId('');
-    setName('');
-    setEmail('');
+    setId("");
+    setName("");
+    setEmail("");
   }
 
   const handleDeleteUserForm = deleteIdSubmit => {
     deleteIdSubmit.preventDefault();
     const newUsers = users.filter(user => user.id !== deleteId);
     setUsers(newUsers);
-    setDeleteId('');
+    setDeleteId("");
   }
 
   return (
-    <div>
+    <section className="user-management">
       <h2>User Management</h2>
       <ul id="users-list">
-        {users.map(user => 
+        {users && users.map(user => 
           <li key={user.id}>
             User ID: {user.id}<br/>
             Name: {user.name}<br/>
@@ -94,6 +89,6 @@ export default function Users() {
       <div>
         <DeleteUser deleteId={deleteId} setDeleteId={setDeleteId} handleDeleteUserForm={handleDeleteUserForm}/>
       </div>
-    </div>
+    </section>
   )
 }

@@ -22,10 +22,7 @@ function App() {
 
       <main>
         <div className="user-and-events">
-          <section className="user-management">
-            <Users />
-          </section>
-
+          <Users />          
           <section className="event-management">
             <h2>Event Management</h2>
             <div>
@@ -80,11 +77,8 @@ function App() {
             </form>
           </div>
         </aside>
-      </main>
-      <footer>
-        <Footer />
-      </footer>
-
+      </main>     
+      <Footer />     
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div>
+    <footer>
       Star Calendar favicon made by&nbsp; 
       <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
         Freepik
@@ -11,6 +11,6 @@ export default function Footer() {
       <a href="https://www.flaticon.com/" title="Flaticon">
         FlatIcon.com
       </a>.
-    </div>
+    </footer>
   )
 }
