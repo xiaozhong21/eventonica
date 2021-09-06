@@ -1,8 +1,13 @@
 const express = require('express');
+const cors = require('cors');
+
 const router = express.Router();
 router.use(express.json());
+router.use(cors());
+router.use(express.urlencoded({ extended: true }))
 
-const users = [
+
+let users = [
   {
     id:"1",
     name: "Marlin", 
@@ -22,14 +27,20 @@ const users = [
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   res.json(users);
 });
 
-router.post('/add', function(req, res, next) {
+router.post('/add', (req, res, next) => {
   const newUser = req.body;
   users.push(newUser);
   res.json(users);
+});
+
+router.delete('/:deleteId', (req, res) => {
+  const deleteId = req.params.deleteId;
+  users = users.filter(user => user.id !== deleteId);
+  res.send({ message: 'User deleted' });
 });
 
 module.exports = router;

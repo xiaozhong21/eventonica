@@ -32,6 +32,16 @@ export default function Users() {
     })
   };
 
+  const deleteUser = deleteId => {
+    return fetch(`http://localhost:3000/users/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        'Content-type': 'application/json'
+       },
+       body: null
+    })
+  };
+
   const handleAddUserForm = userFormSubmit => {
     userFormSubmit.preventDefault();
     const newUser = {
@@ -49,9 +59,10 @@ export default function Users() {
 
   const handleDeleteUserForm = deleteIdSubmit => {
     deleteIdSubmit.preventDefault();
-    const newUsers = users.filter(user => user.id !== deleteId);
-    setUsers(newUsers);
+    deleteUser(deleteId);
+    getUsers();
     setDeleteId("");
+    window.location.reload();
   }
 
   const userList = users.map(user => 
