@@ -4,22 +4,32 @@ import DeleteUser from './DeleteUser';
 export default function Users() { 
   const [apiResponse, setApiResponse] = useState("");
   const [users, setUsers] = useState("");
-
-  useEffect(() => {
-    const getUsers = () => {
-      return fetch("http://localhost:3000/users")
-        .then(res => res.json())
-        .then(res => setApiResponse(res))   
-    };
-    getUsers();
-  }, []);
-
-  useEffect(() => setUsers(apiResponse), [apiResponse]);
-
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [deleteId, setDeleteId] = useState("");
+
+  const getUsers = () => {
+    return fetch("http://localhost:3000/users")
+      .then(res => res.json())
+      .then(res => setApiResponse(res))   
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => setUsers(() => apiResponse), [apiResponse]);
+
+  const addUser = (newUser) => {
+    fetch("http://localhost:3000/users/add", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    })
+  };
 
   const handleAddUserForm = (userFormSubmit) => {
     userFormSubmit.preventDefault();
@@ -28,17 +38,12 @@ export default function Users() {
       name: name,
       email: email
     };
-    fetch("http://localhost:3000/users/add", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newUser)
-    })
-    setUsers(() => [...users, newUser])
+    addUser(newUser);
+    getUsers();
     setId("");
     setName("");
     setEmail("");
+    window.location.reload();
   }
 
   const handleDeleteUserForm = deleteIdSubmit => {
