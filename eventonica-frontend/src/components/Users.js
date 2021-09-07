@@ -69,7 +69,7 @@ export default function Users() {
     <li key={user.id}>
       User ID: {user.id}<br/>
       Name: {user.name}<br/>
-      Email: {user.email}
+      Email: {user.email}<br/><br/>
     </li>
   );
 
