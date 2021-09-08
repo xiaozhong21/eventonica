@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function AddUser({id, name, email, setId, setName, setEmail, handleAddUserForm}) {
+export default function AddUser(props) {
+  const {id, name, email, setId, setName, setEmail, handleAddUserForm} = props;
+  
   return (
     <div>
       <h3>Add User</h3>
@@ -8,9 +10,8 @@ export default function AddUser({id, name, email, setId, setName, setEmail, hand
         <fieldset>
         <label>User ID&nbsp;
             <input 
-              type="number" 
+              type="text" 
               id="add-user-id"
-              min="0"
               value={id}
               onChange={(enterId) => setId(enterId.target.value)} 
               required/>

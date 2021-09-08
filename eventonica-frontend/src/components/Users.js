@@ -76,23 +76,30 @@ export default function Users() {
   return (
     <section className="user-management">
       <h2>User Management</h2>
-      <ul id="users-list">
-        {users && userList}
-      </ul>
-      <AddUser 
-        id={id}
-        name={name} 
-        email={email}
-        setId={setId}
-        setName={setName}
-        setEmail={setEmail}
-        handleAddUserForm={handleAddUserForm}
-      />
-      <DeleteUser 
-        deleteId={deleteId} 
-        setDeleteId={setDeleteId} 
-        handleDeleteUserForm={handleDeleteUserForm}
-      />
+      <div className="user-body">
+        <div className="user-list">        
+          <h3>All Users</h3>
+          <ul id="users-list">
+            {users && userList}
+          </ul>
+        </div>
+        <div className="user-form">
+          <AddUser 
+            id={id}
+            name={name} 
+            email={email}
+            setId={setId}
+            setName={setName}
+            setEmail={setEmail}
+            handleAddUserForm={handleAddUserForm}
+          />
+          <DeleteUser 
+            deleteId={deleteId} 
+            setDeleteId={setDeleteId} 
+            handleDeleteUserForm={handleDeleteUserForm}
+          />
+        </div>
+      </div>
     </section>
   )
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function DeleteUser({deleteId, setDeleteId, handleDeleteUserForm}) {
+export default function DeleteUser(props) {
+  const {deleteId, setDeleteId, handleDeleteUserForm} = props;
+  
   return (
     <div>
       <h3>Delete User</h3>
@@ -8,9 +10,8 @@ export default function DeleteUser({deleteId, setDeleteId, handleDeleteUserForm}
         <fieldset>
           <label>User ID&nbsp;
             <input 
-              type="number" 
+              type="text" 
               id="delete-user-id"
-              min="0"
               value={deleteId}
               onChange={(e) => setDeleteId(e.target.value)} />
           </label>

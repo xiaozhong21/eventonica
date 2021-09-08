@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Klee+One&family=Lato&family=Roboto&display=swap');
+body {
+   font-family: 'Klee One', cursive;
+}
+
 fieldset {
   border: none;
   margin: 1rem 0;
@@ -6,6 +11,7 @@ fieldset {
 header {
   /* For more about flexbox, see https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -16,14 +22,49 @@ header img {
 
 main {
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.user-and-events {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid grey;
+}
+
+.user-management {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-management > h2, h3 {
+  text-align: center;
+}
+
+.user-management input[type="submit"] {
+  display: block;
+  margin: 0 auto;
+}
+
+.user-body {
+  display: flex;
   justify-content: space-between;
 }
 
-aside {
-  margin-left: 2em;
+.user-list {
+  margin-right: 50px;
+}
+
+.user-form {
+  margin-left: 50px;
 }
 
 footer {
+  text-align: center;
   margin-top: 1rem;
   font-size: small;
   color: gray;

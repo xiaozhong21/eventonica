@@ -31,12 +31,14 @@ router.get('/', (req, res, next) => {
   res.json(users);
 });
 
+//Add new user
 router.post('/add', (req, res, next) => {
   const newUser = req.body;
   users.push(newUser);
   res.json(users);
 });
 
+//Delete an existing user
 router.delete('/:deleteId', (req, res) => {
   const deleteId = req.params.deleteId;
   users = users.filter(user => user.id !== deleteId);
