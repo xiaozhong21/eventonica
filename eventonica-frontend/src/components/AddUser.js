@@ -10,10 +10,10 @@ export default function AddUser(props) {
         <fieldset>
         <label>User ID&nbsp;
             <input 
-              type="text" 
+              type="number" 
               id="add-user-id"
               value={id}
-              onChange={(enterId) => setId(enterId.target.value)} 
+              onChange={(enterId) => setId(parseInt(enterId.target.value))} 
               required/>
           </label><br/><br/>
           <label>Name&nbsp;

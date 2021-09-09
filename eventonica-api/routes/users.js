@@ -1,47 +1,48 @@
 const express = require('express');
 const cors = require('cors');
-
 const router = express.Router();
+const User = require('../models/user');
+
 router.use(express.json());
 router.use(cors());
 router.use(express.urlencoded({ extended: true }))
 
+// const pgp = require('pg-promise')(/* options */)
+// const db = pgp('postgres://localhost:5432/eventonica')
 
-let users = [
-  {
-    id:"1",
-    name: "Marlin", 
-    email: "marlin@gmail.com"
-  },
-  {
-    id: "2",
-    name: "Nemo",
-    email: "nemo@gmail.com" 
-  },
-  {
-    id: "3",
-    name: "Dory",
-    email: "dory@gmail.com"  
-  }
-]
-
-
-/* GET users listing. */
-router.get('/', (req, res, next) => {
-  res.json(users);
+//GET list of users
+router.get('/', (req, res) => {
+  // db.any('SELECT * FROM users')--> using pg-promise
+  User.findAll() //--> using Sequelize
+  .then(users => res.json(users))
+  .catch(error => {
+    console.log('ERROR:', error)
+  });
 });
 
-//Add new user
-router.post('/add', (req, res, next) => {
+//ADD new user
+router.post('/add', (req, res) => {
   const newUser = req.body;
-  users.push(newUser);
+  const newEntry = User.create({ //-->using Sequelize
+    id: newUser.id, 
+    name: newUser.name, 
+    email: newUser.email 
+  })
+  // db.one('INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email', [newUser.name, newUser.email]);-->using pg-promise
+  // users.push(newUser);--> using hardcodes users
   res.json(users);
 });
 
-//Delete an existing user
+//DELETE an existing user
 router.delete('/:deleteId', (req, res) => {
   const deleteId = req.params.deleteId;
-  users = users.filter(user => user.id !== deleteId);
+  User.destroy({ //-->using Sequelize
+    where: {
+      id: deleteId
+    }
+  });
+  // db.result('DELETE FROM users WHERE id = $1', deleteId) --> using pg-promise
+  // users = users.filter(user => user.id !== deleteId); --> using hardcoded users
   res.send({ message: 'User deleted' });
 });
 

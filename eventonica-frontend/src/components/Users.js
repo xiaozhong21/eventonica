@@ -3,7 +3,6 @@ import AddUser from './AddUser';
 import DeleteUser from './DeleteUser';
 
 export default function Users() { 
-  const [apiResponse, setApiResponse] = useState([]);
   const [users, setUsers] = useState([]);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -13,14 +12,12 @@ export default function Users() {
   const getUsers = () => {
     return fetch("http://localhost:3000/users")
       .then(res => res.json())
-      .then(res => setApiResponse(res))   
+      .then(res => setUsers(res));
   };
 
   useEffect(() => {
     getUsers();
-  }, []);
-
-  useEffect(() => setUsers(() => apiResponse), [apiResponse]);
+  }, [id]);
 
   const addUser = newUser => {
     fetch("http://localhost:3000/users/add", {

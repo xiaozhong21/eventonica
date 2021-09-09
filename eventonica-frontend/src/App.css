@@ -32,34 +32,38 @@ main {
   flex-direction: column;
   justify-content: space-between;
   padding-bottom: 20px;
-  border-bottom: 1px solid grey;
 }
 
-.user-management {
+.user-management, .event-management, .search-management {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-bottom: 1px solid grey;
 }
 
 .user-management > h2, h3 {
   text-align: center;
 }
 
-.user-management input[type="submit"] {
+.event-management > h2, h3 {
+  text-align: center;
+}
+
+.user-management input[type="submit"], .event-management input[type="submit"], .search-management input[type="submit"] {
   display: block;
   margin: 0 auto;
 }
 
-.user-body {
+.user-body, .event-body, .finder-body {
   display: flex;
   justify-content: space-between;
 }
 
-.user-list {
+.user-list, .event-list, .search-result {
   margin-right: 50px;
 }
 
-.user-form {
+.user-form, .event-form, .search-form {
   margin-left: 50px;
 }
 

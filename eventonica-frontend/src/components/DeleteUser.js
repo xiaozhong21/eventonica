@@ -10,10 +10,10 @@ export default function DeleteUser(props) {
         <fieldset>
           <label>User ID&nbsp;
             <input 
-              type="text" 
+              type="number" 
               id="delete-user-id"
               value={deleteId}
-              onChange={(e) => setDeleteId(e.target.value)} />
+              onChange={(e) => setDeleteId(parseInt(e.target.value))} />
           </label>
         </fieldset>
         <input type="submit" />

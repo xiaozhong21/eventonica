@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import AddEvent from './AddEvent';
 import DeleteEvent from './DeleteEvent';
 
@@ -31,43 +31,39 @@ const reducer = (state, action) => {
 };
 
 export default function Events() {
-  const sampleEvents = [
-    {
-      id: "1",
-      name: "Birthday",
-      date: "2021-09-01",
-      description: "A birthday party for my best friend",
-      category: "Celebration"
-    },
-    {
-      id: "2",
-      name: "Graduation",
-      date: "2021-08-01",
-      description: "The class of 2021 graduates from East High",
-      category: "Education"
-    },
-    {
-      id: "3",
-      name: "JS Study Session",
-      date: "2021-10-01",
-      description: "A chance to practice Javascript interview questions",
-      category: "Education"
-    }
-  ];
-
-  const [events, setEvents] = useState(sampleEvents);
+  const [events, setEvents] = useState([]);
   const [deleteEventId, setDeleteEventId] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const eventList = events.map((event) =>
-    <li key={event.id}>
-      Event ID: {event.id}<br/>
-      Name: {event.name}<br/>
-      Date: {event.date}<br/>
-      Description: {event.description}<br/>
-      Category: {event.category}<br/><br/>
-    </li>
-  );
+  const getEvents = () => {
+    return fetch("http://localhost:3000/events")
+      .then(res => res.json())
+      .then(res => setEvents(res));
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, [state.id]);
+
+  const addEvent = newEvent => {
+    fetch("http://localhost:3000/events/add", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    })
+  };
+
+  const deleteEvent = deleteEventId => {
+    return fetch(`http://localhost:3000/events/${deleteEventId}`, {
+      method: "DELETE",
+      headers: {
+        'Content-type': 'application/json'
+       },
+       body: null
+    })
+  };
 
   const handleAddEventForm = eventFormSubmit => {
     eventFormSubmit.preventDefault();
@@ -78,36 +74,55 @@ export default function Events() {
       description: state.description,
       category: state.category
     };
-    setEvents([...events, newEvent]);
+    addEvent(newEvent);
+    getEvents();
     dispatch({
       type: "clearForm"
     });
+    window.location.reload();
   };
 
   const handleDeleteEventForm = deleteIdSubmit => {
     deleteIdSubmit.preventDefault();
-    const newEvents = events.filter(event => event.id !== deleteEventId);
-    setEvents(newEvents);
+    deleteEvent(deleteEventId);
+    getEvents();
     setDeleteEventId("");
+    window.location.reload();
   };
+
+  const eventList = events.map((event) =>
+  <li key={event.id}>
+    Event ID: {event.id}<br/>
+    Name: {event.name}<br/>
+    Date: {event.date}<br/>
+    Description: {event.description}<br/>
+    Category: {event.category}<br/><br/>
+  </li>
+);
 
   return (
     <section className="event-management">
       <h2>Event Management</h2>
-      <h3>All Events</h3>
-      <ul id="events-list">
-        {eventList}
-      </ul>
-      <AddEvent 
-        state={state} 
-        dispatch={dispatch} 
-        handleAddEventForm={handleAddEventForm} 
-      />
-      <DeleteEvent 
-        deleteEventId={deleteEventId} 
-        setDeleteEventId={setDeleteEventId} 
-        handleDeleteEventForm={handleDeleteEventForm} 
-      />
+      <div className="event-body">
+        <div className="event-list">
+          <h3>All Events</h3>
+          <ul id="events-list">
+            {eventList}
+          </ul>
+        </div>
+        <div className="event-form">
+          <AddEvent 
+            state={state} 
+            dispatch={dispatch} 
+            handleAddEventForm={handleAddEventForm} 
+          />
+          <DeleteEvent 
+            deleteEventId={deleteEventId} 
+            setDeleteEventId={setDeleteEventId} 
+            handleDeleteEventForm={handleDeleteEventForm} 
+          />
+        </div>
+      </div>
     </section>
   )
 }
