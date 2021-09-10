@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const router = express.Router();
 const Event = require('../models/event');
+const { Op } = require("sequelize");
 
 router.use(express.json());
 router.use(cors());
@@ -19,7 +20,7 @@ router.get('/', (req, res) => {
 //ADD new event
 router.post('/add', (req, res) => {
   const newEvent = req.body;
-  const newEntry = Event.create({ 
+  Event.create({ 
     id: newEvent.id, 
     name: newEvent.name, 
     date: newEvent.date,
@@ -41,11 +42,22 @@ router.delete('/:deleteEventId', (req, res) => {
 });
 
 //SEARCH for events
-router.get('/search/:searchTerm', (req, res) => {
-  const searchTerm = req.params.searchTerm;
+router.get('/search1/:searchDate', (req, res) => {
   Event.findAll({
     where: {
-      date: searchTerm
+      date: req.params.searchDate
+    }
+  })
+  .then(events => res.json(events))
+  .catch(error => {
+    console.log('ERROR:', error)
+  });
+});
+
+router.get('/search2/:searchCategory', (req, res) => {
+  Event.findAll({
+    where: {
+      category: req.params.searchCategory
     }
   })
   .then(events => res.json(events))

@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 //ADD new user
 router.post('/add', (req, res) => {
   const newUser = req.body;
-  const newEntry = User.create({ //-->using Sequelize
+  User.create({ //-->using Sequelize
     id: newUser.id, 
     name: newUser.name, 
     email: newUser.email 

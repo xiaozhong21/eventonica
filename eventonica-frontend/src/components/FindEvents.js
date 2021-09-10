@@ -5,19 +5,29 @@ export default function FindEvents() {
   const [searchCategory, setSearchCategory] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const searchEvents = (searchTerm) => {
-    return fetch(`http://localhost:3000/events/search/${searchTerm}`)
+  const searchEventsByDate = (searchDate) => {
+    return fetch(`http://localhost:3000/events/search1/${searchDate}`)
       .then(res => res.json())
       .then(res => setSearchResults(res));
   };
 
-  const handleSearchFormSubmit = searchFormSubmit => {
-    searchFormSubmit.preventDefault();
-    const searchTerm = searchDate;
-    searchEvents(searchTerm);
+  const searchEventsByCategory = (searchCategory) => {
+    return fetch(`http://localhost:3000/events/search2/${searchCategory}`)
+      .then(res => res.json())
+      .then(res => setSearchResults(res));
+  };
+
+  const handleSearchByDate = buttonClick => {
+    buttonClick.preventDefault();
+    searchEventsByDate(searchDate);
+    setSearchDate("");
   }
 
-
+  const handleSearchByCategory = buttonClick => {
+    buttonClick.preventDefault();
+    searchEventsByCategory(searchCategory);
+    setSearchCategory('');
+  }
 
   const searchList = searchResults.map((search) =>
     <li key={search.id}>
@@ -41,7 +51,7 @@ export default function FindEvents() {
         </div>
         <div className="search-form">
           <h3>Search by Date/Category</h3>
-          <form id="search" action="#" onSubmit={handleSearchFormSubmit}>
+          <form id="search" action="#">
             <fieldset>
               <label htmlFor="date-search">Date </label>
               <input 
@@ -49,8 +59,9 @@ export default function FindEvents() {
                 id="date-search"
                 value={searchDate}
                 onChange={(enterDate) => setSearchDate(enterDate.target.value)} 
-              />
+              />             
             </fieldset>
+            <button onClick={handleSearchByDate}>Search by Date</button><br/>
             <fieldset>
               <label htmlFor="category-search">Category </label>
               <input 
@@ -60,7 +71,7 @@ export default function FindEvents() {
                 onChange={(enterCategory) => setSearchCategory(enterCategory.target.value)} 
               />
             </fieldset>
-            <input type="submit" value="Search" />
+            <button onClick={handleSearchByCategory}>Search by Category</button><br/>
           </form>
         </div>
       </div>
