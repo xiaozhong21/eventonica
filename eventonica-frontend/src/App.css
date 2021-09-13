@@ -49,7 +49,7 @@ main {
   text-align: center;
 }
 
-.user-management input[type="submit"], .event-management input[type="submit"], .search-management button {
+.user-management input[type="submit"], .event-management input[type="submit"], .search-management button, .fav-events button {
   display: block;
   margin: 0 auto;
 }

@@ -4,6 +4,7 @@ import calendarImg from './images/calendar.png';
 import Users from "./components/Users";
 import Events from "./components/Events";
 import FindEvents from "./components/FindEvents";
+import FavoriteEvents from "./components/FavoriteEvents";
 import Footer from "./components/Footer";
 
 function App() {
@@ -18,9 +19,12 @@ function App() {
           <Users />          
           <Events />
         </div>
-        <aside className="search-toolbar">
+        <div className="search-toolbar">
           <FindEvents />
-        </aside>
+        </div>
+        <div className="fav-events">
+          <FavoriteEvents />
+        </div>
       </main>     
       <Footer />     
     </div>

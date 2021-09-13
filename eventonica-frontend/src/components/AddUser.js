@@ -14,7 +14,7 @@ export default function AddUser(props) {
               id="add-user-id"
               value={id}
               onChange={(enterId) => setId(parseInt(enterId.target.value))} 
-              required/>
+            />
           </label><br/><br/>
           <label>Name&nbsp;
             <input 
