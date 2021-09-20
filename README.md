@@ -1,4 +1,8 @@
-# Goal
+---
+tags: week9 react express postgres
+---
+
+# Overview
 
 This is an initial version of the Eventonica following this [Techtonica curriculum](https://github.com/Techtonica/curriculum/blob/main/projects/eventonica-react/README.md), built with React, Express, and PostgreSQL. 
 
